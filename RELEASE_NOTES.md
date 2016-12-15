@@ -9,15 +9,21 @@ Details about the thing that changed that needs to get included in the Release N
 
 # Ohai Release Notes:
 
-## Amazon EC2
+## Haskell Language plugin
 
-- Windows instances running Amazon created AMIs will now be automatically detected as running in AWS
-- Linux AWS detect has been improved and false detection of systems running in other clouds have been resolved.
+Haskell is now detected in a new haskell language plugin:
 
-## Packages Plugin
+```javascript
+"languages": {
+  "haskell": {
+    "stack": {
+      "version": "1.2.0",
+      "description": "Version 1.2.0 x86_64 hpack-0.14.0"
+    }
+  }
+}
+```
 
-The packages plugin no longer requires Ohai configuration to enable the plugin. Any existing configuration will be ignored and can be removed.
+## LSB Release Detection
 
-## Shell Out Timeout
-
-Plugins that shellout via the shell_out helper will now timeout after 30 seconds to prevent hung runs. The helper also includes the ability to change this time if necessary in your own plugins.
+The lsb_release command line tool is now preferred to the contents of /etc/lsb-release. This resolves an issue where a distro can be upgraded, but /etc/lsb-release is not upgraded to reflect the change

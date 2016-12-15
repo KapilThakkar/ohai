@@ -94,9 +94,9 @@ module Ohai
 
       # Then run all the version 7 plugins
       begin
-        @provides_map.all_plugins(attribute_filter).each { |plugin|
+        @provides_map.all_plugins(attribute_filter).each do |plugin|
           @runner.run_plugin(plugin)
-        }
+        end
       rescue Ohai::Exceptions::AttributeNotFound, Ohai::Exceptions::DependencyCycle => e
         Ohai::Log.error("Encountered error while running plugins: #{e.inspect}")
         raise
@@ -220,6 +220,8 @@ module Ohai
     end
 
     def configure_logging
+      return if Ohai::Log.configured?
+
       Ohai::Log.init(Ohai.config[:log_location])
 
       if Ohai.config[:log_level] == :auto

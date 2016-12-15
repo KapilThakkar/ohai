@@ -1,7 +1,136 @@
 # Change Log
 
-## [8.15.1](https://github.com/chef/ohai/tree/8.15.1) (2016-04-20)
-[Full Changelog](https://github.com/chef/ohai/compare/v8.15.0...8.15.1)
+## [8.22.0](https://github.com/chef/ohai/tree/8.22.0) (2016-11-30)
+[Full Changelog](https://github.com/chef/ohai/compare/v8.21.0...8.22.0)
+
+**Implemented enhancements:**
+
+- Detect the global zone of a Solaris system as a virt host even without guests [\#908](https://github.com/chef/ohai/pull/908) ([numericillustration](https://github.com/numericillustration))
+- Add new haskell language plugin [\#902](https://github.com/chef/ohai/pull/902) ([cdituri](https://github.com/cdituri))
+- Better handle errors in fetching the hostname on darwin \(macOS\) systems [\#884](https://github.com/chef/ohai/pull/884) ([erikng](https://github.com/erikng))
+- Prefer lsb\_release tool to /etc/lsb-release data [\#873](https://github.com/chef/ohai/pull/873) ([kylev](https://github.com/kylev))
+- Extend set\_attribute plugin helper method to set sub-attributes. [\#822](https://github.com/chef/ohai/pull/822) ([mcquin](https://github.com/mcquin))
+
+**Fixed bugs:**
+
+- Rework / fix logic in the joyent plugin and improve specs [\#909](https://github.com/chef/ohai/pull/909) ([tas50](https://github.com/tas50))
+- Avoid  ip\_scopes returning tunl/docker interfaces as privateaddress [\#890](https://github.com/chef/ohai/pull/890) ([n-marton](https://github.com/n-marton))
+
+## [v8.21.0](https://github.com/chef/ohai/tree/v8.21.0) (2016-10-18)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.20.0...v8.21.0)
+
+**Implemented enhancements:**
+
+- Add shard plugin [#877](https://github.com/chef/ohai/pull/877) ([jaymzh](https://github.com/jaymzh))
+
+**Fixed bugs:**
+
+- Ohai uptime plugin hangs in Windows. [#876](https://github.com/chef/ohai/pull/876) ([Aliasgar16](https://github.com/Aliasgar16))
+
+## [v8.20.0](https://github.com/chef/ohai/tree/v8.20.0) (2016-09-07)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.19.2...v8.20.0)
+
+**Implemented enhancements:**
+
+- Retrofit network plugin to work on Windows Nano Server [#872](https://github.com/chef/ohai/pull/872) ([mwrock](https://github.com/mwrock))
+- Detect lxd [#871](https://github.com/chef/ohai/pull/871) ([jeunito](https://github.com/jeunito))
+- Use chefstyle 0.4.0 for linting and resolve all warnings [#870](https://github.com/chef/ohai/pull/870) ([lamont-granquist](https://github.com/lamont-granquist))
+- Add kernel[:update] on Solaris Systems [#869](https://github.com/chef/ohai/pull/869) ([MarkGibbons](https://github.com/MarkGibbons))
+- Add hostnamectl plugin for Linux machine information [#867](https://github.com/chef/ohai/pull/867) ([davide125](https://github.com/davide125))
+
+## [v8.19.2](https://github.com/chef/ohai/tree/v8.19.2) (2016-08-16)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.19.1...v8.19.2)
+
+**Implemented enhancements:**
+
+- Require at least mixlib-log 1.7.1 [#866](https://github.com/chef/ohai/pull/866) ([tas50](https://github.com/tas50))
+
+## [v8.19.1](https://github.com/chef/ohai/tree/v8.19.1) (2016-08-12)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.19.0...v8.19.1)
+
+**Fixed bugs:**
+
+- Move log configuration down to Mixlib::Log [#864](https://github.com/chef/ohai/pull/864) ([thommay](https://github.com/thommay))
+- Only configure logging if we must [#863](https://github.com/chef/ohai/pull/863) ([thommay](https://github.com/thommay))
+
+## [v8.19.0](https://github.com/chef/ohai/tree/v8.19.0) (2016-08-11)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.18.0...v8.19.0)
+
+**Implemented enhancements:**
+
+- Add plugin for available shells [#854](https://github.com/chef/ohai/issues/854)
+- Add platform detection for Arista EOS [#860](https://github.com/chef/ohai/pull/860) ([jerearista](https://github.com/jerearista))
+
+**Fixed bugs:**
+
+- Fix installs on Ruby 2.1 and rspec testing with rspec 3.5 [#861](https://github.com/chef/ohai/pull/861) ([tas50](https://github.com/tas50))
+- Fix solaris2 plugin network interface detection [#859](https://github.com/chef/ohai/pull/859) ([acaiafa](https://github.com/acaiafa))
+
+## [8.18.0](https://github.com/chef/ohai/tree/8.18.0) (2016-08-04)
+
+[Full Changelog](https://github.com/chef/ohai/compare/v8.17.1...8.18.0)
+
+**Implemented enhancements:**
+
+- Add a plugin for collecting available shells [#856](https://github.com/chef/ohai/pull/856) ([tas50](https://github.com/tas50))
+- BlockDevice: Add physical and logical block size [#850](https://github.com/chef/ohai/pull/850) ([sun77](https://github.com/sun77))
+- Properly detect PHP 7 [#848](https://github.com/chef/ohai/pull/848) ([tas50](https://github.com/tas50))
+- Add support for Linux HugePages [#842](https://github.com/chef/ohai/pull/842) ([bjk-soundcloud](https://github.com/bjk-soundcloud))
+- Add detection of Virtualbox and VMware Fusion on OS X [#840](https://github.com/chef/ohai/pull/840) ([tas50](https://github.com/tas50))
+- Remove support for Ruby 2.0 [#838](https://github.com/chef/ohai/pull/838) ([tas50](https://github.com/tas50))
+- Add hardware plugin for ohai on darwin [#839](https://github.com/chef/ohai/pull/839) ([natewalck](https://github.com/natewalck))
+
+**Fixed bugs:**
+
+- Avoid global mutation. [#852](https://github.com/chef/ohai/pull/852) ([coderanger](https://github.com/coderanger))
+
+
+## [8.17.1](https://github.com/chef/ohai/tree/8.17.1) (2016-06-30)
+[Full Changelog](https://github.com/chef/ohai/compare/v8.17.0...8.17.1)
+
+**Fixed bugs:**
+
+- Move timezone value under time [\#836](https://github.com/chef/ohai/pull/836) ([tas50](https://github.com/tas50))
+- Update PowerShell Version Compat Detection / Unblock bundler on Appveyor [\#832](https://github.com/chef/ohai/pull/832) ([smurawski](https://github.com/smurawski))
+
+
+## [v8.17.0](https://github.com/chef/ohai/tree/v8.17.0) (2016-06-20)
+[Full Changelog](https://github.com/chef/ohai/compare/v8.16.0...v8.17.0)
+
+**Implemented enhancements:**
+
+- Add additional info to networking interfaces/addresses [\#830](https://github.com/chef/ohai/pull/830) ([jaymzh](https://github.com/jaymzh))
+- Add a simple plugin to get the local timezone. [\#829](https://github.com/chef/ohai/pull/829) ([johnbellone](https://github.com/johnbellone))
+- Switch to kernel version to identify platform_version on Gentoo [\#828](https://github.com/chef/ohai/pull/828) ([tas50](https://github.com/tas50))
+- Expose ring parameters in the network plugin [\#827](https://github.com/chef/ohai/pull/827) ([davide125](https://github.com/davide125))
+- Improve packages attributes [\#820](https://github.com/chef/ohai/pull/820) ([glensc](https://github.com/glensc))
+- Add version for linux modules when available [\#816](https://github.com/chef/ohai/pull/816) ([jmauro](https://github.com/jmauro))
+- Add freebsd support in packages plugin [\#814](https://github.com/chef/ohai/pull/814) ([vr](https://github.com/vr))
+
+## [v8.16.0](https://github.com/chef/ohai/tree/v8.16.0) (2016-05-12)
+[Full Changelog](https://github.com/chef/ohai/compare/v8.15.1...v8.16.0)
+
+**Implemented enhancements:**
+
+- Properly poll Openstack metadata + other Openstack improvements [\#818](https://github.com/chef/ohai/pull/818) ([tas50](https://github.com/tas50))
+- Update packages plugin to support PLD Linux as an RPM distro [\#813](https://github.com/chef/ohai/pull/813) ([glensc](https://github.com/glensc))
+- Add detection of bhyve guests running Linux/\*BSD [\#812](https://github.com/chef/ohai/pull/812) ([tas50](https://github.com/tas50))
+- Consistent plugin debug logging [\#810](https://github.com/chef/ohai/pull/810) ([tas50](https://github.com/tas50))
+- Extra debug logging and error handling in plugin loading [\#808](https://github.com/chef/ohai/pull/808) ([tas50](https://github.com/tas50))
+- Language plugins: Improve failure logging, update specs, general cleanup [\#805](https://github.com/chef/ohai/pull/805) ([tas50](https://github.com/tas50))
+- Add method to safely get or check the existence of attributes [\#796](https://github.com/chef/ohai/pull/796) ([mcquin](https://github.com/mcquin))
+
+**Fixed bugs:**
+
+- Prevent parallels spec from checking the filesystem [\#811](https://github.com/chef/ohai/pull/811) ([tas50](https://github.com/tas50))
+
+## [v8.15.1](https://github.com/chef/ohai/tree/v8.15.1) (2016-04-20)
+[Full Changelog](https://github.com/chef/ohai/compare/v8.15.0...v8.15.1)
 
 **Fixed bugs:**
 
@@ -20,7 +149,7 @@
 - Fix Elixir version detection on newer Elixir releases [\#802](https://github.com/chef/ohai/pull/802) ([tas50](https://github.com/tas50))
 - Correct the version detection in erlang plugin [\#801](https://github.com/chef/ohai/pull/801) ([tas50](https://github.com/tas50))
 - Fix mono builddate capture and add debug logging [\#800](https://github.com/chef/ohai/pull/800) ([tas50](https://github.com/tas50))
-- Fix the scala plugin [\#799](https://github.com/chef/ohai/pull/799) ([tas50](https://github.com/tas50))
+- Fix the scala plugin to properly return data [\#799](https://github.com/chef/ohai/pull/799) ([tas50](https://github.com/tas50))
 - Don't execute .so libs for Windows [\#798](https://github.com/chef/ohai/pull/798) ([chefsalim](https://github.com/chefsalim))
 
 ## [8.14.0](https://github.com/chef/ohai/tree/8.14.0) (2016-04-08)

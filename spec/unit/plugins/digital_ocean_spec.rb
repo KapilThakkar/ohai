@@ -20,6 +20,20 @@ require "spec_helper"
 
 describe Ohai::System, "plugin digital_ocean" do
   let(:plugin) { get_plugin("digital_ocean") }
+  let(:digitalocean_path) { "/etc/digitalocean" }
+  let(:hint) do
+    {
+      "droplet_id" => 12345678,
+      "name" => "example.com",
+      "image_id" => 3240036,
+      "size_id" => 66,
+      "region_id" => 4,
+      "ip_addresses" => {
+        "public" => "1.2.3.4",
+        "private" => "5.6.7.8",
+      },
+    }
+  end
 
   before(:each) do
     allow(plugin).to receive(:hint?).with("digital_ocean").and_return(false)

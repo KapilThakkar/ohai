@@ -171,6 +171,36 @@ Ohai.plugin(:Network) do
     iface
   end
 
+  # determine ring parameters for the interface using ethtool
+  def ethernet_ring_parameters(iface)
+    return iface unless ethtool_binary = find_ethtool_binary
+    iface.each_key do |tmp_int|
+      next unless iface[tmp_int][:encapsulation] == "Ethernet"
+      so = shell_out("#{ethtool_binary} -g #{tmp_int}")
+      Ohai::Log.debug("Parsing ethtool output: #{so.stdout}")
+      type = nil
+      iface[tmp_int]["ring_params"] = {}
+      so.stdout.lines.each do |line|
+        next if line.start_with?("Ring parameters for")
+        next if line.strip.nil?
+        if line =~ /Pre-set maximums/
+          type = "max"
+          next
+        end
+        if line =~ /Current hardware settings/
+          type = "current"
+          next
+        end
+        key, val = line.split(/:\s+/)
+        if type && val
+          ring_key = "#{type}_#{key.downcase.tr(' ', '_')}"
+          iface[tmp_int]["ring_params"][ring_key] = val.to_i
+        end
+      end
+    end
+    iface
+  end
+
   # determine link stats, vlans, queue length, and state for an interface using ip
   def link_statistics(iface, net_counters)
     so = shell_out("ip -d -s link")
@@ -310,10 +340,18 @@ Ohai.plugin(:Network) do
   end
 
   def parse_ip_addr_inet6_line(cint, iface, line)
-    if line =~ /inet6 ([a-f0-9\:]+)\/(\d+) scope (\w+)/
+    if line =~ /inet6 ([a-f0-9\:]+)\/(\d+) scope (\w+)( .*)?/
       iface[cint][:addresses] = Mash.new unless iface[cint][:addresses]
       tmp_addr = $1
-      iface[cint][:addresses][tmp_addr] = { "family" => "inet6", "prefixlen" => $2, "scope" => ($3.eql?("host") ? "Node" : $3.capitalize) }
+      tags = $4 || ""
+      tags = tags.split(" ")
+
+      iface[cint][:addresses][tmp_addr] = {
+        "family" => "inet6",
+        "prefixlen" => $2,
+        "scope" => ($3.eql?("host") ? "Node" : $3.capitalize),
+        "tags" => tags,
+      }
     end
   end
 
@@ -342,7 +380,7 @@ Ohai.plugin(:Network) do
   end
 
   def interface_address_not_link_level?(iface, address)
-    iface[:addresses][address][:scope].downcase != "link"
+    !iface[:addresses][address][:scope].casecmp("link").zero?
   end
 
   def interface_valid_for_route?(iface, address, family)
@@ -593,6 +631,7 @@ Ohai.plugin(:Network) do
     end # end "ip else net-tools" block
 
     iface = ethernet_layer_one(iface)
+    iface = ethernet_ring_parameters(iface)
     counters[:network][:interfaces] = net_counters
     network["interfaces"] = iface
   end

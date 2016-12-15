@@ -117,6 +117,11 @@ Ohai.plugin(:Kernel) do
     so.stdout.lines do |line|
       if line =~ /([a-zA-Z0-9\_]+)\s+(\d+)\s+(\d+)/
         modules[$1] = { :size => $2, :refcount => $3 }
+        # Making sure to get the module version that has been loaded
+        if File.exist?("/sys/module/#{$1}/version")
+          version = File.read("/sys/module/#{$1}/version").chomp.strip
+          modules[$1]["version"] = version unless version.empty?
+        end
       end
     end
 
@@ -150,6 +155,10 @@ Ohai.plugin(:Kernel) do
 
     so = shell_out("uname -s")
     kernel[:os] = so.stdout.split($/)[0]
+
+    so = File.open("/etc/release") { |file| file.gets }
+    md = /(?<update>\d.*\d)/.match(so)
+    kernel[:update] = md[:update] if md
 
     modules = Mash.new
 

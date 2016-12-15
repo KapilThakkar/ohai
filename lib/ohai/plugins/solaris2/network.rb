@@ -58,7 +58,7 @@ ETHERNET_ENCAPS = %w{ afe amd8111s arn atge ath bfe bge bnx bnxe ce cxgbe
                       dmfe e1000g efe elxl emlxs eri hermon hme hxge igb
                       iprb ipw iwh iwi iwk iwp ixgb ixgbe mwl mxfe myri10ge
                       nge ntxn nxge pcn platform qfe qlc ral rge rtls rtw rwd
-                      rwn sfe tavor vr wpi xge yge } unless defined?(ETHERNET_ENCAPS)
+                      rwn sfe tavor vr wpi xge yge aggr} unless defined?(ETHERNET_ENCAPS)
 
 Ohai.plugin(:Network) do
   provides "network", "network/interfaces"
@@ -101,7 +101,7 @@ Ohai.plugin(:Network) do
     cint = nil
 
     so.stdout.lines do |line|
-      if line =~ /^([0-9a-zA-Z\.\:\-]+): \S+ mtu (\d+) index (\d+)/
+      if line =~ /^([0-9a-zA-Z\.\:\-]+)\S/
         cint = $1
         iface[cint] = Mash.new unless iface[cint]
         iface[cint][:mtu] = $2
@@ -170,14 +170,14 @@ Ohai.plugin(:Network) do
       matches = /interface: (?<name>\S+)\s+index\s+(?<index>\d+)/.match(line)
       if matches
         network[:default_interface] =
-        case
-        when iface[matches[:name]]
-          matches[:name]
-        when int_name = full_interface_name(iface, matches[:name], matches[:index])
-          int_name
-        else
-          matches[:name]
-        end
+          case
+          when iface[matches[:name]]
+            matches[:name]
+          when int_name = full_interface_name(iface, matches[:name], matches[:index])
+            int_name
+          else
+            matches[:name]
+          end
         Ohai::Log.debug("found interface device: #{network[:default_interface]} #{matches[:name]}")
       end
       matches = /gateway: (\S+)/.match(line)

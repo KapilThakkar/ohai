@@ -22,6 +22,7 @@ require "ohai/mixin/os"
 require "ohai/mixin/command"
 require "ohai/mixin/seconds_to_human"
 require "ohai/hints"
+require "ohai/util/file_helper"
 
 module Ohai
 
@@ -81,6 +82,7 @@ module Ohai
       include Ohai::Mixin::OS
       include Ohai::Mixin::Command
       include Ohai::Mixin::SecondsToHuman
+      include Ohai::Util::FileHelper
 
       attr_reader :data
 
@@ -152,8 +154,19 @@ module Ohai
         end
       end
 
-      def set_attribute(name, *values)
-        @data[name] = Array18(*values)
+      def set_attribute(name, *attrs, value)
+        # Initialize the path in the @data Mash with new Mashes, if needed.
+        # Will raise a TypeError if we hit a subattribute that is not a
+        # Hash, Mash, or Array.
+        keys = [name] + attrs
+        attribute = keys[0..-2].inject(@data) do |attrs, key|
+          attrs[key] ||= Mash.new
+          attrs[key]
+        end
+
+        # Set the subattribute to the value.
+        attr_name = attrs.empty? ? name : attrs[-1]
+        attribute[attr_name] = value
         @data[name]
       end
 
@@ -195,12 +208,6 @@ module Ohai
       rescue NoMethodError
         # NoMethodError occurs when trying to access a key on nil
         nil
-      end
-
-      def Array18(*args)
-        return nil if args.empty?
-        return args.first if args.length == 1
-        return *args
       end
     end
   end

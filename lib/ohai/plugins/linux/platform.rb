@@ -118,7 +118,10 @@ Ohai.plugin(:Platform) do
       platform_version get_redhatish_version(contents)
     elsif File.exist?("/etc/gentoo-release")
       platform "gentoo"
-      platform_version File.read("/etc/gentoo-release").scan(/(\d+|\.+)/).join
+      # the gentoo release version is the base version used to bootstrap
+      # a node and doesn't have a lot of meaning in a rolling release distro
+      # kernel release will be used - ex. 3.18.7-gentoo
+      platform_version `uname -r`.strip
     elsif File.exist?("/etc/SuSE-release")
       suse_release = File.read("/etc/SuSE-release")
       suse_version = suse_release.scan(/VERSION = (\d+)\nPATCHLEVEL = (\d+)/).flatten.join(".")
@@ -150,6 +153,10 @@ Ohai.plugin(:Platform) do
     elsif File.exist?("/etc/alpine-release")
       platform "alpine"
       platform_version File.read("/etc/alpine-release").strip()
+    elsif File.exist?("/etc/Eos-release")
+      platform "arista_eos"
+      platform_version File.read("/etc/Eos-release").strip.split[-1]
+      platform_family "fedora"
     elsif os_release_file_is_cisco?
       raise "unknown Cisco /etc/os-release or /etc/cisco-release ID_LIKE field" if
         os_release_info["ID_LIKE"].nil? || ! os_release_info["ID_LIKE"].include?("wrlinux")
